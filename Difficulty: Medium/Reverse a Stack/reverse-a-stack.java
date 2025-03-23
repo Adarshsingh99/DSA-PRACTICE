@@ -47,6 +47,20 @@ out.println("~");
 
 class Solution
 { 
+    static void insertAtlast(Stack<Integer> s , int element)
+    {
+        if(s.empty())
+        {
+            s.push(element);
+            return ;
+        }
+        
+        int top = s.peek();
+        s.pop();
+        insertAtlast(s,element);
+        s.push(top);
+        
+    }
     static void reverse(Stack<Integer> s)
     {
         // add your code here
@@ -57,19 +71,6 @@ class Solution
         s.pop();
         reverse(s);
         
-        Stack<Integer> temp =  new Stack<>();
-        
-        while(!s.empty())
-        {
-            temp.push(s.peek());
-            s.pop();
-        }
-        s.push(top);
-        
-        while(!temp.empty())
-        {
-            s.push(temp.peek());
-            temp.pop();
-        }
+        insertAtlast(s,top);
     }
 }
