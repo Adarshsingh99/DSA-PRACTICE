@@ -4,63 +4,44 @@ class Solution {
 
     int search(String pat, String txt) {
         // code here
-        int ans = 0;
-        HashMap<Character,Integer> map = new HashMap<>();
-        
-        for (int i =0;i<pat.length();i++)
+        int i=0, j=0, k=pat.length(),ans=0;
+        HashMap<Character,Integer>map = new HashMap<>();
+        for(int a=0;a<k;a++)
         {
-           map.put(pat.charAt(i),map.getOrDefault(pat.charAt(i),0)+1); 
+            map.put(pat.charAt(a),map.getOrDefault(pat.charAt(a),0)+1);
         }
-        
-        int count = map.size();
-        
-        int i =0;
-        int j =0;
-        int k = pat.length();
-        
-        while( j< txt.length())
+        int count=map.size();
+        int n=txt.length();
+        while(j<n)
         {
-           if(map.containsKey(txt.charAt(j)))
-           {
-               map.put(txt.charAt(j),map.get(txt.charAt(j))-1);
-               
-           
-           
-           if(map.get(txt.charAt(j))==0)
-           {
-               count--;
-           }
-           }
-           
-           if(j-i+1 < k)
-           {
-               j++; 
-           }
-           
-           else if(j-i+1 == k)
-           {
-               if(count ==0 )
+            char ch = txt.charAt(j);
+            if(map.containsKey(ch))
+            {
+                map.put(ch,map.getOrDefault(ch,0)-1);
+                if(map.get(ch)==0)
+                {
+                    count--;
+                }
+            }
+            if(j-i+1 < k)
+            {
+                j++;
+            }
+            else if(j-i+1==k){
+                if(count==0) ans++;
+                char left = txt.charAt(i);
+                if(map.containsKey(left))
                {
-                   ans++;
-               }
-               
-               if(map.containsKey(txt.charAt(i)))
-               {
-                   if(map.get(txt.charAt(i))==0)
-                   {
-                       count++;
-                   }
-                   map.put(txt.charAt(i),map.get(txt.charAt(i))+1);
-               }
-               
-               
-               i++;
-               j++;
-               
-           }
-           
+                map.put(left,map.getOrDefault(left,0)+1);
+                if(map.get(left)==1)
+                {
+                    count++;
+                }
+            }
+            i++;
+            j++;
+            }
         }
-        
         return ans;
     }
 }
