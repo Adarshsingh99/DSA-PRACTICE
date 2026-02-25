@@ -1,60 +1,44 @@
 class Solution {
     public int findPages(int[] arr, int k) {
         // code here
-        
-        if(arr.length<k)
+        if(k>arr.length) return -1;
+        int left = 0;
+        int right=0;
+        for(int a : arr)
         {
-            return -1;
+            left = Math.max(left,a);
+            right+=a;
         }
-        
-        int n=arr.length;
-        
-        int low =arr[0];
-        for(int i=1;i<n;i++)
+        while(left<right)
         {
-            if(low < arr[i])
-            low=arr[i];
-        }
-        
-        int high =0;
-        for(int i=0;i<n;i++)
-        {
-            high+=arr[i];
-        }
-        
-        while(low<=high)
-        {
-            int mid = (low+high)/2;
-            
-            if(possible(arr,mid,k))
+            int mid = (left + right)/2;
+            if(possible(arr,k,mid))
             {
-                low = mid+1;
+                right=mid;
             }
             else
             {
-                high=mid-1;
+                left = mid+1;
             }
         }
-        return low;
+        return right;
     }
-    
-    public boolean possible(int[]arr,int mid, int k)
+    public boolean possible(int arr[], int k , int max)
     {
-        int count=1;
-        int pages=0;
-        
-        for(int i=0;i<arr.length;i++)
+        int st = 1;
+        int book = 0;
+        for(int ar: arr)
         {
-            if(pages+arr[i]<=mid)
-            {
-                pages+=arr[i];
-            }
-            else
-            {
-                count++;
-                pages=arr[i];
-            }
+        if(ar+book > max)
+        {
+            st++;
+            book=ar;
         }
-        return count>k;
+        else
+        {
+            book+=ar;
+        }
+        }
+        return st<=k;
     }
 }
