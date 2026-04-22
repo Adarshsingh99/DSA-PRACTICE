@@ -4,44 +4,40 @@ class Solution {
 
     int search(String pat, String txt) {
         // code here
-        int i=0, j=0, k=pat.length(),ans=0;
-        HashMap<Character,Integer>map = new HashMap<>();
-        for(int a=0;a<k;a++)
+        int k = pat.length();
+        HashMap<Character,Integer> map = new HashMap<>();
+        for(int i=0;i<pat.length();i++)
         {
-            map.put(pat.charAt(a),map.getOrDefault(pat.charAt(a),0)+1);
+            map.put(pat.charAt(i),map.getOrDefault(pat.charAt(i),0)+1);
         }
-        int count=map.size();
-        int n=txt.length();
-        while(j<n)
+        int need = map.size();
+        int i=0;
+        int j=0;
+        int count=0;
+        while(j < txt.length())
         {
-            char ch = txt.charAt(j);
-            if(map.containsKey(ch))
-            {
-                map.put(ch,map.getOrDefault(ch,0)-1);
-                if(map.get(ch)==0)
-                {
-                    count--;
+           char ch = txt.charAt(j);
+           if (map.containsKey(ch)) {
+                map.put(ch, map.get(ch) - 1);
+                if (map.get(ch) == 0) {
+                    need--;
                 }
             }
-            if(j-i+1 < k)
-            {
-                j++;
-            }
-            else if(j-i+1==k){
-                if(count==0) ans++;
-                char left = txt.charAt(i);
-                if(map.containsKey(left))
-               {
-                map.put(left,map.getOrDefault(left,0)+1);
-                if(map.get(left)==1)
-                {
-                    count++;
+           while(j-i+1==k)
+           {
+               if(need==0) count++;
+               char c = txt.charAt(i);
+               if (map.containsKey(c)) {
+                    map.put(c, map.get(c) + 1);
+                    if (map.get(c) == 1) {
+                        need++;
+                    }
                 }
-            }
-            i++;
-            j++;
-            }
+               i++;
+           }
+           j++;
         }
-        return ans;
+        return count;
+        
     }
 }
